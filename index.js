@@ -25,12 +25,12 @@ async function run() {
         const database = client.db("craftComfort");
         const productCollection = database.collection("products");
 
-        const doc = {
-            title: "sample data begaining",
-            content: "for check data",
-        }
-        const result = await productCollection.insertOne(doc);
-        console.log(`A document was inserted with the _id: ${result.insertedId}`);
+        //GET ALL FURNITURE DATA
+        app.get('/furnitures', async (req, res) => {
+            const cursor = productCollection.find({});
+            const furnitures = await cursor.toArray();
+            res.send(furnitures);
+        })
 
 
     } finally {
