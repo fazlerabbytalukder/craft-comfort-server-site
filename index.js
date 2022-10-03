@@ -32,6 +32,14 @@ async function run() {
             res.send(furnitures);
         })
 
+        //GET API WITH ID
+        app.get('/furnitures/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const furnitures = await productCollection.findOne(query);
+            res.json(furnitures);
+        })
+
 
     } finally {
         // await client.close();
