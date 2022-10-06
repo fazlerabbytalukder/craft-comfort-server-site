@@ -24,6 +24,7 @@ async function run() {
         // console.log('database connect successfully');
         const database = client.db("craftComfort");
         const productCollection = database.collection("products");
+        const ordersCollection = database.collection("orders");
 
         //GET ALL FURNITURE DATA
         app.get('/furnitures', async (req, res) => {
@@ -38,6 +39,13 @@ async function run() {
             const query = { _id: ObjectId(id) };
             const furnitures = await productCollection.findOne(query);
             res.json(furnitures);
+        })
+
+        //POST ORDER DATA
+        app.post('/orders', async (req, res) => {
+            const orders = req.body;
+            const result = await ordersCollection.insertOne(orders);
+            res.json(result)
         })
 
 
