@@ -77,6 +77,24 @@ async function run() {
             res.json(result);
         })
 
+        //DIFFERENTIATE ADMIN CAN ONLY ADD ADMIN
+        app.get('/users/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const user = await usersCollection.findOne(query);
+            let isAdmin = false;
+            if (user) {
+                if (user.role === 'admin') {
+                    isAdmin = true;
+                }
+                res.json({ admin: isAdmin });
+            }
+            else {
+                res.json({ admin: isAdmin });
+            }
+            // res.json('dd');
+        })
+
 
     } finally {
         // await client.close();
