@@ -25,6 +25,7 @@ async function run() {
         const database = client.db("craftComfort");
         const productCollection = database.collection("products");
         const ordersCollection = database.collection("orders");
+        const usersCollection = database.collection("users");
 
         //GET ALL FURNITURE DATA
         app.get('/furnitures', async (req, res) => {
@@ -46,6 +47,24 @@ async function run() {
             const orders = req.body;
             const result = await ordersCollection.insertOne(orders);
             res.json(result)
+        })
+
+        //USER INFO POST TO THE DATABASE
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            const result = await usersCollection.insertOne(user);
+            // console.log(result);
+            res.json(result)
+        })
+
+        //USER PUT FOR GOOGLE SIGN IN METHOD(upsert)
+        app.put('/users', async (req, res) => {
+            const user = req.body;
+            const filter = { email: user.email };
+            const options = { upsert: true };
+            const updateDoc = { $set: user };
+            const result = await usersCollection.updateOne(filter, updateDoc, options);
+            res.json(result);
         })
 
 
