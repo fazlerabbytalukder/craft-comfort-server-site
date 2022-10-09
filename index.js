@@ -56,6 +56,21 @@ async function run() {
             res.json(orders);
         });
 
+        //UPDATE ORDER DATA
+        app.put('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            const updateOrder = req.body;
+            const filter = { _id: ObjectId(id) };
+            const options = { upset: true };
+            const updateDoc = {
+                $set: {
+                    status: "Shipped"
+                },
+            };
+            const result = await ordersCollection.updateOne(filter, updateDoc, options);
+            res.json(result)
+        })
+
         //USER INFO POST TO THE DATABASE
         app.post('/users', async (req, res) => {
             const user = req.body;
