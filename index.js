@@ -49,6 +49,13 @@ async function run() {
             res.json(result)
         })
 
+        //GET ALL USER ORDER DATA
+        app.get('/allOrders', async (req, res) => {
+            const cursor = ordersCollection.find({});
+            const orders = await cursor.toArray();
+            res.json(orders);
+        });
+
         //USER INFO POST TO THE DATABASE
         app.post('/users', async (req, res) => {
             const user = req.body;
