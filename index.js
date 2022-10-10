@@ -42,6 +42,13 @@ async function run() {
             res.json(furnitures);
         })
 
+        //POST FURNITURE DATA
+        app.post('/furnitures', async (req, res) => {
+            const foods = req.body;
+            const result = await productCollection.insertOne(foods);
+            res.json(result)
+        })
+
         //DELETE FURNITURE
         app.delete('/furnitures/:id', async (req, res) => {
             const id = req.params.id;
