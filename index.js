@@ -42,6 +42,14 @@ async function run() {
             res.json(furnitures);
         })
 
+        //DELETE FURNITURE
+        app.delete('/furnitures/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await productCollection.deleteOne(query);
+            res.json(result);
+        })
+
         //POST ORDER DATA
         app.post('/orders', async (req, res) => {
             const orders = req.body;
