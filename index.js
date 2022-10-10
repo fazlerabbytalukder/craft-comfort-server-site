@@ -87,6 +87,21 @@ async function run() {
             res.json(result)
         })
 
+        //GET ALL USER ORDER DATA
+        app.get('/allusers', async (req, res) => {
+            const cursor = usersCollection.find({});
+            const users = await cursor.toArray();
+            res.json(users);
+        });
+
+        //DELETE USER
+        app.delete('/allusers/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await usersCollection.deleteOne(query);
+            res.json(result);
+        })
+
         //USER PUT FOR GOOGLE SIGN IN METHOD(upsert)
         app.put('/users', async (req, res) => {
             const user = req.body;
