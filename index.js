@@ -49,6 +49,15 @@ async function run() {
             res.json(result)
         })
 
+        //GET ORDER DATA BY USER
+        app.get('/orders', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email };
+            const cursor = ordersCollection.find(query);
+            const orders = await cursor.toArray();
+            res.json(orders);
+        });
+
         //GET ALL USER ORDER DATA
         app.get('/allOrders', async (req, res) => {
             const cursor = ordersCollection.find({});
