@@ -29,9 +29,23 @@ async function run() {
 
         //GET ALL FURNITURE DATA
         app.get('/furnitures', async (req, res) => {
+            const page = parseInt(req.query.page);
+            const size = parseInt(req.query.size);
+
             const cursor = productCollection.find({});
-            const furnitures = await cursor.toArray();
+            let furnitures;
+            if (page || size) {
+                furnitures = await cursor.skip(page*size).limit(8).toArray();
+            }
+            else {
+                furnitures = await cursor.toArray();
+            } 
             res.send(furnitures);
+        })
+        //GET ALL FURNITURE BY PAGINATION
+        app.get('/furnituresCount', async (req, res) => {
+            const count = await productCollection.estimatedDocumentCount();
+            res.send({count});
         })
 
         //GET API WITH ID
