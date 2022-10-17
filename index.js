@@ -27,7 +27,7 @@ async function run() {
         const ordersCollection = database.collection("orders");
         const usersCollection = database.collection("users");
 
-        //GET ALL FURNITURE DATA
+        //GET ALL FURNITURE DATA BY PAGINATION
         app.get('/furnitures', async (req, res) => {
             const page = parseInt(req.query.page);
             const size = parseInt(req.query.size);
@@ -42,10 +42,21 @@ async function run() {
             } 
             res.send(furnitures);
         })
+        
         //GET ALL FURNITURE BY PAGINATION
         app.get('/furnituresCount', async (req, res) => {
             const count = await productCollection.estimatedDocumentCount();
             res.send({count});
+        })
+
+        //USE POST TO GET FURNITURE KEYS/ID'S
+        app.post('/furnitureByKeys', async (req, res) => {
+            const keys = req.body;
+            const ids = keys.map(id => ObjectId(id));
+            const query = { _id: { $in: ids } }
+            const cursor = productCollection.find(query);
+            const furnitures = await cursor.toArray();
+            res.send(furnitures);
         })
 
         //GET API WITH ID
@@ -58,8 +69,8 @@ async function run() {
 
         //POST FURNITURE DATA
         app.post('/furnitures', async (req, res) => {
-            const foods = req.body;
-            const result = await productCollection.insertOne(foods);
+            const furniture = req.body;
+            const result = await productCollection.insertOne(furniture);
             res.json(result)
         })
 
