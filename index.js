@@ -27,7 +27,7 @@ async function run() {
         const ordersCollection = database.collection("orders");
         const usersCollection = database.collection("users");
 
-        //GET ALL FURNITURE DATA BY PAGINATION
+        //GET ALL FURNITURE DATA BY PAGINATION///
         app.get('/furnitures', async (req, res) => {
             const page = parseInt(req.query.page);
             const size = parseInt(req.query.size);
